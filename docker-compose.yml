@@ -10,7 +10,7 @@ services:
     env_file:
       - ./client/.env
     ports:
-      - "8000:8000"
+      - "8001:8000"
     command: sh -c "yarn && yarn start"
   server:
     container_name: server
@@ -19,15 +19,18 @@ services:
     depends_on:
       - db
     ports:
-      - "3000:3000"
+      - "3003:3000"
     volumes:
       - ./server:/app
     command: sh -c "yarn && yarn start:dev"
   db:
-    container_name: db
-    image: mariadb:10.5.8
-    ports:
-      - "3306:3306"
+    image: "mariadb:10.3"
+    volumes:
+      - ./db_data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/custom.cnf
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: remitano
+    ports:
+      - "3307:3306"
