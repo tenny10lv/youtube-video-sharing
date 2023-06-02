@@ -10,7 +10,7 @@ services:
     env_file:
       - ./client/.env
     ports:
-      - "8001:8000"
+      - "8001:8001"
     command: sh -c "yarn && yarn start"
   server:
     container_name: server
